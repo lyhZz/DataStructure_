@@ -4,11 +4,11 @@
  * @Autor: lyh
  * @Date: 2022-04-25 19:39:46
  * @LastEditors: lyh
- * @LastEditTime: 2022-05-03 23:32:55
+ * @LastEditTime: 2022-05-04 11:26:21
  */
 #pragma once
 #include <iostream>
-
+#include <stdio.h>
 #define OK 1
 #define ERROR 0
 
@@ -42,6 +42,8 @@ public:
 
     Status clear();
     Status listVisit();
+
+    void mergeL(Sequential& list2);
     
 };
 

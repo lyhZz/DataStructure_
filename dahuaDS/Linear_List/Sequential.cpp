@@ -4,7 +4,7 @@
  * @Autor: lyh
  * @Date: 2022-05-03 20:41:37
  * @LastEditors: lyh
- * @LastEditTime: 2022-05-03 23:41:34
+ * @LastEditTime: 2022-05-04 11:27:50
  */
 
 #include "Sequential.h"
@@ -117,6 +117,19 @@ Status Sequential<ElemType>::listVisit(){
     return OK;
 }
 
+template<typename ElemType>
+void Sequential<ElemType>::mergeL(Sequential<ElemType>& list2){
+    /* list2 move to list1*/
+    ElemType e;
+    for(int i = 0; i < list2.getSize() && this->size <= this->capacity; i++){
+        list2.getElem(e, i);
+        if(this->findElem(e) == -1){
+            this->insert(e,this->size);
+        }
+    }
+    this->size--;
+}
+
 
 int main(int argc, char** argv){
     Sequential<int> list1(10);
@@ -155,6 +168,19 @@ int main(int argc, char** argv){
     int findEleTest_2 = list1.findElem(getEleTest);
     cout << "the location of " << getEleTest << " is: " << findEleTest_2 << endl;
 
+    Sequential<int> list2(6);
+    cout << "after initing the L, the capacity of L is: " <<  list2.getCapacity() << endl;
+    for(int i = 0; i < 6; i++){
+        list2.insert(i + 10, i);
+    }
+    cout << "after inserting,  L(capacity, size)) is: (" << list2.getCapacity() << ", "<< list2.getSize() << "):  ";
+    list2.listVisit();
+
+    list1.mergeL(list2);
+    cout << "after merging,  L(capacity, size)) is: (" << list1.getCapacity() << ", "<< list1.getSize() << "):  ";
+    list1.listVisit();
+
+    system("PAUSE");
     return 0;
 }
 
