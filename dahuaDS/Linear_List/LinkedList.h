@@ -1,21 +1,24 @@
 #pragma once
 #include <iostream>
 #include <stdlib.h>
+#include <ctime>
 
 using namespace std;
+
+template<typename ElemType>
+struct linkedNode{
+    ElemType data;
+    linkedNode<ElemType>* next;
+};
 
 
 template<typename ElemType>
 class LinkedList
 {
 private:
+    typedef linkedNode<ElemType> Node; //after tempalte , typedef is no permitted 
     Node* head;
     int length;
-public:
-    typename struct linkedNode{
-        ElemType data;
-        Node* next;
-    }Node;
 public:
     LinkedList();
     ~LinkedList();

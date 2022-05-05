@@ -40,7 +40,7 @@ void LinkedList<ElemType>::clear(){
         pCurrent = pCurrent -> next;
         free(pTmp);
     }
-    this -> head = nullptr;
+    this -> head -> next= nullptr;
     this -> length = 0;
 }
 
@@ -72,11 +72,15 @@ int LinkedList<ElemType>::locateElem(ElemType e){
         return -1;
     }
     Node* pCurrent = this -> head -> next;
-    int index = 1;
-    while(!pCurrent){
+    int index = 0;
+    while(pCurrent){
         if(pCurrent -> data == e) break;
         pCurrent = pCurrent -> next;
         index++;
+    }
+    if(!pCurrent){
+        cout << "mo " << e << " in the list..." << endl;
+        index = -1;
     }
     return index;
 }
@@ -90,8 +94,13 @@ void LinkedList<ElemType>::insertList(int pos, ElemType e){
     Node* pNew = (Node*)malloc(sizeof(Node));
     pNew -> data = e;
     pNew -> next = nullptr;
+    if(this->isEmpty()){
+        this->head->next = pNew;
+        this -> length++;
+        return;
+    }
     if(pos == this -> length){// tail in
-        Node* pCurrent = this -> head -> next;
+        Node* pCurrent = this -> head;
         for(int i = 0; i < this->length; i++){
             pCurrent = pCurrent -> next;
         }
@@ -153,6 +162,7 @@ void LinkedList<ElemType>::createListHead(int n){// reverse order
         pNew -> data = (ElemType)(rand()%100 + 1);
         pNew -> next = this->head->next;
         this->head->next = pNew;
+        this -> length++;
     }
 }
 
@@ -166,12 +176,61 @@ void LinkedList<ElemType>::visit(){
     cout << "the data of linked list is: " ;
     while(pCurrent != nullptr){
         cout << pCurrent->data << " ";
+        pCurrent = pCurrent -> next;
     }
     cout << "\n";
 }
 
 int main(int argc, char** aargv){
+    LinkedList<int> list1;
+    cout << "after initing the L, the length of L is: " <<  list1.getLength() << endl;
+    for(int i = 0; i <= 5; i++){
+        /* head in 6 elements*/
+        list1.insertList(0, i);
+    }
+    cout << "after inserting,  L's length is: " << list1.getLength()<< "  the data is: ";
+    list1.visit();
+
+    cout << "after inserting, the L is empty? " << list1.isEmpty() << endl;
+    list1.clear();
+    cout << "after clearing, the L is empty? " << list1.isEmpty() << endl;
+
+    for(int i = 0; i < 7; i++){
+        /*tail in 8 elements*/
+        list1.insertList(list1.getLength(), i);
+    }
+    cout << "after inserting,  L's length is: " << list1.getLength()<< "  the data is: ";
+    list1.visit();
+
+    list1.insertList(0, 7);
+    cout << "after inserting,  L's length is: " << list1.getLength()<< "  the data is: ";
+    list1.visit();
     
+    int num = 5;
+    int getEleTest;
+    list1.getElem(num, getEleTest);
+    cout << "the " << num << "th element is: " <<  getEleTest << endl;
+
+    int findEleTest = list1.locateElem(getEleTest);
+    cout << "the location of " << getEleTest << " is: " << findEleTest << endl;
+
+    int deleteElemTest = -1;
+    list1.deleteList(num, deleteElemTest);
+    if(deleteElemTest != -1){
+        cout << "has deleted " << num << "th element that is " << deleteElemTest << endl;
+    }
+    cout << "after deleting,  L's length is: " << list1.getLength()<< "  the data is: ";
+    list1.visit();
+    int findEleTest_2 = list1.locateElem(getEleTest);
+    cout << "the location of " << getEleTest << " is: " << findEleTest_2 << endl;
+
+    cout << "----------------head in linked list----------------------" << endl;
+    LinkedList<int> list2;
+    list2.createListHead(10);
+    cout << "after random init,  L's length is: " << list2.getLength()<< "  the data is: ";
+    list2.visit();
+
+    system("PAUSE");
     return 0;
 }
 
